@@ -5,7 +5,7 @@ const app = express();
 
 //Require mongoose config
 const connect = require("./server/config/mongoose.config");
-const Game = require("./server/models/game.model");
+const { Game } = require("./server/models/game.model");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,12 +28,11 @@ const io = require("socket.io")(server, {
 io.on("connection", (socket) => {
   //Each client that connects gets its own socket id
   console.log(`${socket.id} has connected`);
-  connect.then((db) => {
-    console.log("Connected to db through socket");
+  // connect.then((db) => {
+  //   console.log("Connected to db through socket");
 
-    let game = new Game({ gameName: "Overwatch" });
-    game.save();
-  });
+  let game = new Game({ gameName: "Overwatch" });
+  game.save();
 
   socket.on("disconnect", () => {
     console.log(`${socket.id} has disconnected`);
